@@ -1,0 +1,32 @@
+[project]
+name = "gestor-biblioteca-casa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi>=0.129.0",
+    "rich>=14.3.2",
+    "sqlalchemy>=2.0.46",
+    "typer>=0.23.1",
+    "uvicorn>=0.40.0",
+]
+
+[dependency-groups]
+dev = [
+    "gestor-biblioteca-casa",
+    "pytest>=9.0.2",
+    "ruff>=0.15.1",
+]
+
+[tool.uv.workspace]
+members = [
+    ".",
+]
+
+[tool.uv.sources]
+gestor-biblioteca-casa = { workspace = true, editable = true }
+
+[tool.setuptools.packages.find]
+where = ["src"]
