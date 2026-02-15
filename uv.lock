@@ -95,11 +95,10 @@ wheels = [
 [[package]]
 name = "gestor-biblioteca-casa"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "alembic" },
     { name = "fastapi" },
-    { name = "httpx" },
     { name = "rich" },
     { name = "sqlalchemy" },
     { name = "typer" },
@@ -108,6 +107,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "httpx" },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -116,7 +116,6 @@ dev = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.18.4" },
     { name = "fastapi", specifier = ">=0.129.0" },
-    { name = "httpx", specifier = ">=0.28.1" },
     { name = "rich", specifier = ">=14.3.2" },
     { name = "sqlalchemy", specifier = ">=2.0.46" },
     { name = "typer", specifier = ">=0.23.1" },
@@ -125,6 +124,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "ruff", specifier = ">=0.15.1" },
 ]
