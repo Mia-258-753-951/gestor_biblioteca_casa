@@ -3,5 +3,5 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get('/health')
-def hello():
+def health():
     return {'status': 'ok'}
