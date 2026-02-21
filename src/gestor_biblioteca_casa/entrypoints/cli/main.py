@@ -1,11 +1,10 @@
 import typer
 
+from gestor_biblioteca_casa.entrypoints.cli import books
+
 app = typer.Typer()
 
-@app.command()
-def hello(name: str) -> None:
-    typer.echo(f'Hello {name}.')
+app.add_typer(books.app, name='books')
 
 
-if __name__ == '__main__':
-    app()
+
