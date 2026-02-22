@@ -1,10 +1,10 @@
 from fastapi import APIRouter
 from gestor_biblioteca_casa.services.book_service import create_book, list_books
-from gestor_biblioteca_casa.infra.memo_repo import BookMemoRepository
+from gestor_biblioteca_casa.bootstrap import get_book_repo
 
 router = APIRouter(prefix='/books', tags=['Books'])
 
-repo = BookMemoRepository()
+repo = get_book_repo()
 
 @router.post('/')
 def new_book(title: str, author: str):

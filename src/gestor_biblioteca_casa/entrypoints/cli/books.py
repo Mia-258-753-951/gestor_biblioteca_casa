@@ -2,13 +2,13 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from gestor_biblioteca_casa.infra.memo_repo import BookMemoRepository
+from gestor_biblioteca_casa.bootstrap import get_book_repo
 from gestor_biblioteca_casa.services.book_service import create_book, list_books
 
 console = Console()
 app = typer.Typer()
 
-repo = BookMemoRepository()
+repo = get_book_repo()
 
 @app.command()
 def new_book(

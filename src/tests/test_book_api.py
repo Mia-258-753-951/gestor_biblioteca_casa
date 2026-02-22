@@ -1,4 +1,3 @@
-from uuid import UUID
 
 from fastapi.testclient import TestClient
 from gestor_biblioteca_casa.entrypoints.api.main import app
