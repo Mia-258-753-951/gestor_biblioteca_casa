@@ -14,4 +14,4 @@ class BookMemoRepository(BookRepo):
         return book.id
     
     def list(self, limit: int, offset: int) -> list[Book]:
-        return list(islice(self.data.values(), offset, offset + limit))
+        return list(islice(self.data.values(), offset, offset + limit)) 
