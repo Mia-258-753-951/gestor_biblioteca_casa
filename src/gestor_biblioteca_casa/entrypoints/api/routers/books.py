@@ -13,5 +13,8 @@ def new_book(title: str, author: str):
     return {'id': new_id}
 
 @router.get('/')
-def list_all_books():
-    return list_books(repo)
+def list_all_books(
+    size: int=20,
+    page: int=1,
+):
+    return list_books(repo, size, page)

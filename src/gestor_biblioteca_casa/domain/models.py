@@ -1,7 +1,8 @@
 from dataclasses import dataclass
+from uuid import UUID
 
 @dataclass
 class Book:
-    id: str
+    id: UUID
     title: str
     author: str

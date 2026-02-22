@@ -12,7 +12,7 @@ def test_add_persist_in_memory_and_list_returns_in_memory_books():
 
     assert new_id == fake_id
     assert repo.data[fake_id] == book
-    assert repo.list() == [book]
+    assert repo.list(20, 0) == [book]
 
 
     

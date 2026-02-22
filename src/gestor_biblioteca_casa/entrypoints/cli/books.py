@@ -20,8 +20,11 @@ def new_book(
     typer.echo(f'Libro guardado con id: {added_id}.')
 
 @app.command()
-def show_books():
-    books = list_books(repo)
+def show_books(
+    limit: int = typer.Option(20, '--limit', '-l'),
+    page: int = typer.Option(1, '--page', '-p')
+):
+    books = list_books(repo, limit, page)
 
     if not books:
         console.print('No hay libros guardados.')

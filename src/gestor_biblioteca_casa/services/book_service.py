@@ -8,5 +8,11 @@ def create_book(repo: BookRepo, title: str, author: str) -> UUID:
     book = Book(id=fake_id, title= title, author= author)
     return repo.add(book)
 
-def list_books(repo: BookRepo) -> list[Book]:
-    return repo.list()
+def list_books(repo: BookRepo, size: int, page: int) -> list[Book]:
+    if size < 1 or page <1:
+        raise ValueError("'size' and 'page' must be >= 1.")
+    
+    limit = size
+    offset = (page - 1) * size
+
+    return repo.list(limit, offset)
