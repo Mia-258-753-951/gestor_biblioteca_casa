@@ -21,10 +21,10 @@ def new_book(
 
 @app.command()
 def show_books(
-    limit: int = typer.Option(20, '--limit', '-l'),
+    size: int = typer.Option(20, '--size', '-s'),
     page: int = typer.Option(1, '--page', '-p')
 ):
-    books = list_books(repo, limit, page)
+    books = list_books(repo, size, page)
 
     if not books:
         console.print('No hay libros guardados.')
