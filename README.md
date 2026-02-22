@@ -31,9 +31,14 @@ GESTOR_BIBLIOTECA_CASA/
 │       │   ├── api/            # Implementación de FastAPI (REST)
 │       │   └── cli/            # Implementación de Typer (Consola)
 │       ├── infra/              # Adaptadores de salida (Driven Adapters - DB, etc.)
+│       │   ├── sqlite/
+│       │       ├──sqlite_db.py
+│       │       └───sqlite_book_repo.py
+│       │        
 │       ├── ports/              # Interfaces/Protocolos para desacoplamiento
+│       │    ├──book_contract.py
+│       │
 │       ├── services/           # Casos de uso (Application Layer)
-│       ├── __init__.py
 │       └── __main__.py         # Punto de entrada principal del paquete
 ├── tests/                      # Pruebas unitarias y de integración
 ├── .gitignore
