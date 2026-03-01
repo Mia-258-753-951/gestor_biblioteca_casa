@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 import pytest
 
 from gestor_biblioteca_casa.entrypoints.api.main import app
-from gestor_biblioteca_casa.bootstrap import get_book_repo, SQL_SCRIPT, CURRENT_VERSION
+from gestor_biblioteca_casa.bootstrap import get_book_repo, SQL_PATH, CURRENT_VERSION
 from gestor_biblioteca_casa.infra.sqlite.sqlite_db import create_connection_factory, init_db
 from gestor_biblioteca_casa.infra.sqlite.sqlite_book_repo import SQLiteBookRepository
 
@@ -15,7 +15,7 @@ def db_factory(tmp_path):
 # creamos schema en path temporal y devolvemos repo con factory inyectado
 @pytest.fixture
 def test_repo(db_factory):
-    init_db(db_factory, SQL_SCRIPT, CURRENT_VERSION)    
+    init_db(db_factory, SQL_PATH, CURRENT_VERSION)    
     return SQLiteBookRepository(db_factory)
 
 # creamos override y cliente que lo aplica, limpiando al salir
@@ -37,7 +37,7 @@ def client(test_repo):
 
 def test_api_creates_then_list(client):
     
-    r = client.post('/books/', params={'title': 'prueba1','author': 'author1'})
+    r = client.post('/books/', params={'title': 'prueba1','author': 'author1', 'acquired_at': '2026-01-20'})
 
     data = r.json()
 
