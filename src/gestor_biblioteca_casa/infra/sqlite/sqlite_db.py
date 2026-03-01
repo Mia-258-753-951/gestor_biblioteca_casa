@@ -2,7 +2,13 @@ import sqlite3
 from pathlib import Path
 from typing import Callable
 
+from gestor_biblioteca_casa.infra.errors import DatabaseInitError
 
+
+sql_versions = {
+    1: '001_initial.sql',
+    2: '002_add_acquired_at.sql',
+}
 ConnectionFactory = Callable[[], sqlite3.Connection] # para typing, definimos el factory
 def create_connection_factory(path: Path) -> ConnectionFactory:
     """Crea una factory para obtener conexiones configuradas"""
@@ -13,27 +19,27 @@ def create_connection_factory(path: Path) -> ConnectionFactory:
         return conn
     return factory
 
-def init_db(factory: ConnectionFactory, sql_path: Path, expected_version: int) -> None:
+def init_db(factory: ConnectionFactory, SQL_PATH: Path, CURRENT_VERSION: int) -> None:
     """Asegura que la DB existe, tiene el esquema y la versión correcta."""
-    # 1.- intentamos leer la verisón actual
+    # intentamos leer la versión actual
     try:
         with factory() as conn:
-            row = conn.execute("SELECT version FROM schema_versions").fetchone()
-            current_version = row['version'] if row else None
+            row = conn.execute("SELECT MAX(version) as max_version FROM schema_versions").fetchone()
+            current_version = row['max_version'] if row else 0 
     except sqlite3.OperationalError:
-    # Si la tabla no existe, asumimos que no existe o está vacía
-        current_version = None
+    # Si la tabla no existe, asumimos que no existe o está vacía, aplicamos versión 0
+        current_version = 0
 
-    # 2.- Si no hay verisón, inicializamos schema (ejecutamos SQL)
-    if current_version is None:
-        with sql_path.open('r', encoding='utf-8') as f:
+    # Si versión recibida > CURRENT_VERSION, falla
+    if current_version > CURRENT_VERSION:
+        raise DatabaseInitError(f'Incompatible version: {current_version}. Current version: {CURRENT_VERSION}.')
+
+    # vamos subiendo una versión hasta que current_version == CURRENT_VERSION
+    while current_version < CURRENT_VERSION:
+        with (SQL_PATH / sql_versions[current_version + 1]).open('r', encoding='utf-8') as f:
             schema_sql = f.read()
             with factory() as conn:
                 conn.executescript(schema_sql)
-        return     
+        current_version += 1
+    return     
     
-    # 3.- Si hay versión pero no coincide, lanzamos error
-    if current_version != expected_version:
-        raise sqlite3.Error(
-            f'Incompatible version: {current_version}. Expected_version: {expected_version}.'
-        )
