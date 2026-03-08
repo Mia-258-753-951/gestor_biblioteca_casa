@@ -7,6 +7,7 @@ from gestor_biblioteca_casa.bootstrap import get_book_repo, SQL_PATH, CURRENT_VE
 from gestor_biblioteca_casa.infra.sqlite.sqlite_db import create_connection_factory, init_db
 from gestor_biblioteca_casa.infra.sqlite.sqlite_book_repo import SQLiteBookRepository
 
+
 # creamos el factory apuntando al path temporal
 @pytest.fixture
 def db_factory(tmp_path):
@@ -20,7 +21,7 @@ def test_repo(db_factory):
 
 # creamos override y cliente que lo aplica, limpiando al salir
 @pytest.fixture
-def client(test_repo):
+def client(test_repo, monkeypatch):
     """configura el override y lo limpia después"""
     # esta es la función que sustitye al original
     def override_get_book_repo():
